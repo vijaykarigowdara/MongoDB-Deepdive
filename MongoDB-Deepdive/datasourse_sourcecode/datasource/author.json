@@ -1,0 +1,28 @@
+{ 
+    "_id" : ObjectId("5c033ad67ee96a60dcd5822c"), 
+    "book_title" : "MongoDB Tutorial", 
+    "author_name" : "Vijay", 
+    "status" : "active", 
+    "publish_year" : NumberLong(2016)
+}
+{ 
+    "_id" : ObjectId("5c033b557ee96a60dcd5822e"), 
+    "book_title" : "Software Testing Tutorial", 
+    "author_name" : "David", 
+    "status" : "active", 
+    "publish_year" : NumberLong(2015)
+}
+{ 
+    "_id" : ObjectId("5c033ba67ee96a60dcd5822f"), 
+    "book_title" : "Node.js Tutorial", 
+    "author_name" : "Robert", 
+    "status" : "active", 
+    "publish_year" : NumberLong(2018)
+}
+{ 
+    "_id" : ObjectId("5c033bf27ee96a60dcd58230"), 
+    "book_title" : "Java Tutorial", 
+    "author_name" : "Raj", 
+    "status" : "inactive", 
+    "publish_year" : NumberLong(2017)
+}

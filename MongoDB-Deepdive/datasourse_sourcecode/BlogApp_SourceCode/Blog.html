@@ -1,0 +1,101 @@
+
+
+<html>
+  <head>
+<style>
+a:link {
+    color: green;
+    background-color: transparent;
+    text-decoration: none;
+}
+a:visited {
+    color: pink;
+    background-color: transparent;
+    text-decoration: none;
+}
+a:hover {
+    color: red;
+    background-color: transparent;
+    text-decoration: underline;
+}
+a:active {
+    color: yellow;
+    background-color: transparent;
+    text-decoration: underline;
+}
+</style>
+<script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.0/stitch.js"></script>
+<script>
+  // Initialize the App Client
+  const client = stitch.Stitch.initializeDefaultAppClient("blog-qhghk");
+  // Get a MongoDB Service Client
+  const mongodb = client.getServiceClient(
+    stitch.RemoteMongoClient.factory,
+    "mongodb-atlas"
+  );
+  // Get a reference to the blog database
+  const db = mongodb.db("blog");
+function displayComments() {
+  db.collection("comments")
+    .find({}, {limit: 1000})
+    .asArray()
+    .then(docs => {
+      const html = docs.map(doc => `<div>${doc.comment}</div>`);
+      document.getElementById("comments").innerHTML = html;
+    });
+}
+function displayCommentsOnLoad() {
+  client.auth
+    .loginWithCredential(new stitch.AnonymousCredential())
+    .then(displayComments)
+    .catch(console.error);
+}
+function addComment() {
+  const newComment = document.getElementById("new_comment");
+  console.log("add comment", client.auth.user.id)
+  db.collection("comments")
+    .insertOne({ owner_id : client.auth.user.id, comment: newComment.value })
+    .then(displayComments);
+  newComment.value = "";
+}
+</script>  
+</head>
+  <body onload="displayCommentsOnLoad()">
+    <h3>Welcome to MongoDB</h3>
+    <div id="content">
+<p>
+      MongoDB is a document database with the scalability and flexibility that you want with the querying and indexing that you need.
+<br/>
+</p>
+
+MongoDB stores data in flexible, JSON-like documents, meaning fields can vary from document to document and data structure can be changed over time
+<br />
+<p>
+The document model maps to the objects in your application code, making data easy to work with.
+<br />
+</p>
+<p>
+Ad hoc queries, indexing, and real time aggregation provide powerful ways to access and analyze your data.
+<br />
+</p>
+<p>
+MongoDB is a distributed database at its core, so high availability, horizontal scaling, and geographic distribution are built in and easy to use.
+<br />
+</p>
+<p>
+MongoDB is free and open-source. Versions released prior to October 16, 2018 are published under the AGPL. All versions released after October 16, 2018, including patch fixes for prior versions, are published under the Server Side Public
+License (SSPL) v1.
+<br /></p>
+<p>For more information on the blog, click below link.
+</br>
+<a href="https://www.mongodb.com/blog" target="_blank">MongoDB Blog</a>
+</p>
+
+    </div>
+    <hr>
+    <div id="comments"></div>
+<hr>
+Add comment:
+<input id="new_comment"><input type="submit" onClick="addComment()">
+  </body>
+</html>
